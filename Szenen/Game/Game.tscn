@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="Game" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 385.536
+margin_top = 320.02
+margin_right = 425.536
+margin_bottom = 334.02
+rect_scale = Vector2( 6.04, 4.8 )
+text = "Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
