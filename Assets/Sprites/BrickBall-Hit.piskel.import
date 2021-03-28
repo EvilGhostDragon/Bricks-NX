@@ -1,0 +1,13 @@
+[remap]
+
+importer="com.technohacker.piskel"
+type="StreamTexture"
+path="res://.import/BrickBall-Hit.piskel-f2f8fc2a3097b9290682f925d3a51310.stex"
+
+[deps]
+
+source_file="res://Assets/Sprites/BrickBall-Hit.piskel"
+dest_files=[ "res://.import/BrickBall-Hit.piskel-f2f8fc2a3097b9290682f925d3a51310.stex" ]
+
+[params]
+

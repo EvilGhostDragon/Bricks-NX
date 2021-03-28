@@ -10,7 +10,3 @@ extends Node
 func _ready():
 	get_node("Title Screen/Menu/Version Label").text = "v1.0.0 / HeisIT"
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

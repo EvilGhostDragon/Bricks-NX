@@ -1,14 +1,175 @@
-[gd_scene format=2]
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Szenen/Game/Ball/Ball.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Szenen/Game/Game.gd" type="Script" id=2]
+[ext_resource path="res://Szenen/Game/Player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Icons/heart.svg" type="Texture" id=4]
+[ext_resource path="res://Assets/Icons/x.svg" type="Texture" id=5]
+[ext_resource path="res://Assets/Fonts/Montserrat-ExtraBold.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://Assets/Icons/score.svg" type="Texture" id=7]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.160784, 0.121569, 0.588235, 0.564706 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=4]
+size = 26
+font_data = ExtResource( 6 )
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 663.355, 10 )
 
 [node name="Game" type="Node2D"]
+script = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="."]
-margin_left = 385.536
-margin_top = 320.02
-margin_right = 425.536
-margin_bottom = 334.02
-rect_scale = Vector2( 6.04, 4.8 )
-text = "Game"
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="HUD"]
+margin_left = 1136.0
+margin_top = 640.0
+margin_right = 1245.0
+margin_bottom = 710.0
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Panel"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 32.0
+margin_bottom = 48.0
+texture = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TextureRect2" type="TextureRect" parent="HUD/Panel"]
+margin_left = 40.0
+margin_top = 24.0
+margin_right = 64.0
+margin_bottom = 48.0
+texture = ExtResource( 5 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Panel"]
+margin_left = 64.0
+margin_top = 8.0
+margin_right = 104.0
+margin_bottom = 62.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "##"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="HUD"]
+margin_left = 32.0
+margin_top = 640.0
+margin_right = 232.0
+margin_bottom = 710.0
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Panel2"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 32.0
+margin_bottom = 48.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Panel2"]
+margin_left = 32.0
+margin_top = 8.0
+margin_right = 192.0
+margin_bottom = 62.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ball" parent="." instance=ExtResource( 1 )]
+position = Vector2( 568, 640 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 490, 670 )
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Borders"]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Top"]
+shape = SubResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Borders/Top"]
+color = Color( 0.403922, 0.00784314, 0.00784314, 1 )
+polygon = PoolVector2Array( 0, 0, 1280, 0, 1280, 22, 0, 22 )
+
+[node name="Left" type="StaticBody2D" parent="Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Left"]
+shape = SubResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Borders/Left"]
+color = Color( 0.403922, 0.00784314, 0.00784314, 1 )
+polygon = PoolVector2Array( 22, 0, 22, 760, 0, 760, 0, 0 )
+
+[node name="Right" type="StaticBody2D" parent="Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Right"]
+shape = SubResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Borders/Right"]
+position = Vector2( 1258, 0 )
+color = Color( 0.403922, 0.00784314, 0.00784314, 1 )
+polygon = PoolVector2Array( 22, 0, 22, 760, 0, 760, 0, 0 )
+
+[node name="DeathArea" type="Area2D" parent="."]
+gravity = 0.0
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathArea"]
+position = Vector2( 640, 750 )
+shape = SubResource( 2 )
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( 640, 649.491 )
+points = PoolVector2Array( 0, 0, 0, -50 )
+width = 1.5
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="DeathTimer" type="Timer" parent="."]
+one_shot = true
+[connection signal="started" from="." to="Player" method="_on_Game_started"]
+[connection signal="started" from="." to="Ball" method="_on_Game_started"]
+[connection signal="stopped" from="." to="Player" method="_on_Game_stopped"]
+[connection signal="test_signal" from="Ball" to="." method="_on_Ball_test_signal"]
+[connection signal="area_entered" from="DeathArea" to="." method="_on_DeadArea_area_entered" flags=3]
+[connection signal="body_entered" from="DeathArea" to="." method="_on_DeadArea_body_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
