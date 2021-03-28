@@ -48,15 +48,16 @@ func _physics_process(_delta):
 	if $Bricks.get_child_count() <= 0 and game_started:
 		level_cleared()
 
-#	if Input.is_action_just_pressed("test_skiplevel"):
-#		level += 1
-#		for _brick in $Bricks.get_children():
-#			$Bricks.remove_child(_brick)
+	if Input.is_action_just_pressed("test_skiplevel"):
+		
+		for _brick in $Bricks.get_children():
+			$Bricks.remove_child(_brick)
 
 func level_cleared():
 	game_started = false
 	#$GameAnimation.play("level_cleared")
-	$LevelClearedTimer.start(1)	
+	level += 1
+	$LevelClearedTimer.start(1)
 	$Fade.fade_inout()
 
 func stop_game():

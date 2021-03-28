@@ -241,6 +241,7 @@ one_shot = true
 anims/level_cleared = SubResource( 8 )
 
 [node name="Fade" parent="." instance=ExtResource( 9 )]
+visible = false
 [connection signal="started" from="." to="Ball" method="_on_Game_started"]
 [connection signal="area_entered" from="DeathArea" to="." method="_on_DeadArea_area_entered" flags=3]
 [connection signal="body_entered" from="DeathArea" to="." method="_on_DeadArea_body_entered"]

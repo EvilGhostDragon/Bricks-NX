@@ -50,7 +50,7 @@ position = Vector2( 640, 210 )
 scale = Vector2( 8, 8 )
 frames = SubResource( 7 )
 animation = "Title Screen"
-frame = 1
+frame = 4
 speed_scale = 2.0
 playing = true
 
@@ -92,3 +92,4 @@ align = 2
 valign = 2
 
 [node name="Fade" parent="." instance=ExtResource( 4 )]
+visible = false
