@@ -31,8 +31,9 @@ func _ready():
 
 func _physics_process(_delta):
 	if health <= 0:
-		if not get_tree().change_scene("res://Szenen/Title Screen/Title Screen.tscn"):
-			pass
+		
+		get_tree().change_scene("res://Szenen/Title Screen/Title Screen.tscn")
+		save()
 
 	if not game_started:
 		if Input.is_action_pressed("game_left") and $Line2D.rotation >= deg2rad(-80):
@@ -49,7 +50,6 @@ func _physics_process(_delta):
 		level_cleared()
 
 	if Input.is_action_just_pressed("test_skiplevel"):
-		
 		for _brick in $Bricks.get_children():
 			$Bricks.remove_child(_brick)
 
@@ -98,6 +98,24 @@ func build_stage():
 func update_hud():
 	$HUD/Panel/Label.text = str(health)
 	$HUD/Panel2/Label.text = str(score)
+	
+func save_score():
+	var save_file = File.new()
+	save_file.open("user://savegame.save", File.WRITE)
+	save_file.store_line(to_json({"highscore":score}))
+	save_file.close()
+
+func save():
+	var save_file = File.new()
+	if not save_file.file_exists("user://savegame.save"):
+		save_score()
+	else:
+		save_file.open("user://savegame.save", File.READ)
+		var save_data = parse_json(save_file.get_line())
+		var score_old = save_data["highscore"]
+		save_file.close()
+		if score_old < score:
+			save_score()
 
 func _on_DeadArea_body_entered(_body):
 	if game_started:
