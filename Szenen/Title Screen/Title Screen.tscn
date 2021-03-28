@@ -65,7 +65,7 @@ position = Vector2( 640, 210 )
 scale = Vector2( 8, 8 )
 frames = SubResource( 7 )
 animation = "Title Screen"
-frame = 5
+frame = 4
 speed_scale = 2.0
 playing = true
 
@@ -87,11 +87,17 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="New Game" parent="Menu/Buttons" instance=ExtResource( 2 )]
-margin_top = 109.0
+margin_top = 57.0
 margin_right = 880.0
-margin_bottom = 203.0
+margin_bottom = 151.0
 text = "New Game"
 scene_to_load = "res://Szenen/Game/Game.tscn"
+
+[node name="Exit" parent="Menu/Buttons" instance=ExtResource( 2 )]
+margin_top = 161.0
+margin_right = 880.0
+margin_bottom = 255.0
+text = "Exit"
 
 [node name="Version Label" type="Label" parent="Menu"]
 margin_top = 316.0
@@ -141,3 +147,4 @@ size_flags_vertical = 3
 custom_fonts/font = SubResource( 10 )
 text = "###################"
 align = 1
+[connection signal="pressed" from="Menu/Buttons/Exit" to="." method="_on_Exit_pressed"]
