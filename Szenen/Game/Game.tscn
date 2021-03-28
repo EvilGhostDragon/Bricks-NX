@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Szenen/Game/Ball/Ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Szenen/Game/Game.gd" type="Script" id=2]
@@ -7,22 +7,49 @@
 [ext_resource path="res://Assets/Icons/x.svg" type="Texture" id=5]
 [ext_resource path="res://Assets/Fonts/Montserrat-ExtraBold.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://Assets/Icons/score.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Fonts/Pixeled.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Szenen/FadeIn.tscn" type="PackedScene" id=9]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.160784, 0.121569, 0.588235, 0.564706 )
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 size = 26
 font_data = ExtResource( 6 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=3]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 663.355, 10 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 42
+font_data = ExtResource( 8 )
+
+[sub_resource type="InputEventAction" id=6]
+action = "game_pause"
+
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "level_cleared"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ball:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
@@ -34,7 +61,7 @@ margin_left = 1136.0
 margin_top = 640.0
 margin_right = 1245.0
 margin_bottom = 710.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -67,7 +94,7 @@ margin_top = 8.0
 margin_right = 104.0
 margin_bottom = 62.0
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "##"
 valign = 1
@@ -80,7 +107,7 @@ margin_left = 32.0
 margin_top = 640.0
 margin_right = 232.0
 margin_bottom = 710.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -102,7 +129,7 @@ margin_top = 8.0
 margin_right = 192.0
 margin_bottom = 62.0
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "0"
 align = 2
@@ -124,7 +151,7 @@ collision_layer = 16
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Top"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Polygon2D" type="Polygon2D" parent="Borders/Top"]
 color = Color( 0.403922, 0.00784314, 0.00784314, 1 )
@@ -133,7 +160,7 @@ polygon = PoolVector2Array( 0, 0, 1280, 0, 1280, 22, 0, 22 )
 [node name="Left" type="StaticBody2D" parent="Borders"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Left"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Polygon2D" type="Polygon2D" parent="Borders/Left"]
 color = Color( 0.403922, 0.00784314, 0.00784314, 1 )
@@ -142,7 +169,7 @@ polygon = PoolVector2Array( 22, 0, 22, 760, 0, 760, 0, 0 )
 [node name="Right" type="StaticBody2D" parent="Borders"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Right"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Polygon2D" type="Polygon2D" parent="Borders/Right"]
 position = Vector2( 1258, 0 )
@@ -156,7 +183,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathArea"]
 position = Vector2( 640, 750 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
 [node name="Line2D" type="Line2D" parent="."]
 position = Vector2( 640, 649.491 )
@@ -164,12 +191,59 @@ points = PoolVector2Array( 0, 0, 0, -50 )
 width = 1.5
 default_color = Color( 1, 1, 1, 1 )
 
+[node name="Pause" type="Popup" parent="."]
+pause_mode = 2
+margin_left = 128.0
+margin_top = 128.0
+margin_right = 1152.0
+margin_bottom = 456.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Pause"]
+anchor_left = 0.5
+anchor_top = 0.255
+anchor_right = 0.5
+anchor_bottom = 0.255
+margin_left = -104.0
+margin_top = 4.35999
+margin_right = 106.0
+margin_bottom = 123.36
+custom_fonts/font = SubResource( 5 )
+text = "Pause"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Pause" type="Button" parent="Pause"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -152.0
+margin_top = -128.0
+margin_right = -140.0
+margin_bottom = -108.0
+button_mask = 0
+shortcut = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bricks" type="Node2D" parent="."]
+
+[node name="LevelClearedTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [node name="DeathTimer" type="Timer" parent="."]
 one_shot = true
-[connection signal="started" from="." to="Player" method="_on_Game_started"]
+
+[node name="GameAnimation" type="AnimationPlayer" parent="."]
+anims/level_cleared = SubResource( 8 )
+
+[node name="FadeIn" parent="." instance=ExtResource( 9 )]
 [connection signal="started" from="." to="Ball" method="_on_Game_started"]
-[connection signal="stopped" from="." to="Player" method="_on_Game_stopped"]
-[connection signal="test_signal" from="Ball" to="." method="_on_Ball_test_signal"]
 [connection signal="area_entered" from="DeathArea" to="." method="_on_DeadArea_area_entered" flags=3]
 [connection signal="body_entered" from="DeathArea" to="." method="_on_DeadArea_body_entered"]
+[connection signal="pressed" from="Pause/Pause" to="." method="_on_Pause_pressed"]
+[connection signal="timeout" from="LevelClearedTimer" to="." method="_on_LevelClearedTimer_timeout"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]

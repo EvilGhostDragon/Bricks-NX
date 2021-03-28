@@ -1,17 +1,9 @@
 extends KinematicBody2D
 
-signal test_signal
-
 var velocity = Vector2(0,0)
 var collison_ojc = KinematicBody2D
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 func _physics_process(delta):
-#	velocity = move_and_slide(velocity)
-	
 	collison_ojc = move_and_collide(velocity * delta)
 	if collison_ojc:
 		velocity = velocity.bounce(collison_ojc.normal)
@@ -19,7 +11,6 @@ func _physics_process(delta):
 
 func _hit_leftright():
 	$AnimationPlayer.play("hit_leftright")
-	emit_signal("test_signal",10)
 	
 func _hit_topbot():
 	$AnimationPlayer.play("hit_topbot")

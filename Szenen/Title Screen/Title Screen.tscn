@@ -50,7 +50,7 @@ position = Vector2( 640, 210 )
 scale = Vector2( 8, 8 )
 frames = SubResource( 7 )
 animation = "Title Screen"
-frame = 5
+frame = 2
 speed_scale = 2.0
 playing = true
 
@@ -93,4 +93,3 @@ valign = 2
 
 [node name="FadeIn" parent="." instance=ExtResource( 4 )]
 visible = false
-[connection signal="fade_finished" from="FadeIn" to="." method="_on_FadeIn_fade_finished"]
