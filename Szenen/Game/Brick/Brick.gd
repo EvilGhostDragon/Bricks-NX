@@ -1,17 +1,16 @@
 extends StaticBody2D
+
 signal destroyed
 
 var color
 var destroyed_points
 var health = 1
 
-	
-	
 func _process(_delta):
 	if health <= 0:
 		queue_free()
 		emit_signal("destroyed",destroyed_points)
-		
+
 func set_color():
 	match health:
 		1: color = "8E0000"
@@ -29,13 +28,11 @@ func set_color():
 
 func init(pos,brick_health):
 	position = pos
-	health = brick_health 
-	
+	health = brick_health
 	if brick_health > 9:
 		health = 9
 	destroyed_points = health * 100
 	set_color()
-
 
 func _on_HitArea_body_entered(_body):
 	health -= 1

@@ -8,7 +8,7 @@
 [ext_resource path="res://Assets/Fonts/Montserrat-ExtraBold.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://Assets/Icons/score.svg" type="Texture" id=7]
 [ext_resource path="res://Assets/Fonts/Pixeled.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://Szenen/FadeIn.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Szenen/Fade.tscn" type="PackedScene" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.160784, 0.121569, 0.588235, 0.564706 )
@@ -240,7 +240,7 @@ one_shot = true
 [node name="GameAnimation" type="AnimationPlayer" parent="."]
 anims/level_cleared = SubResource( 8 )
 
-[node name="FadeIn" parent="." instance=ExtResource( 9 )]
+[node name="Fade" parent="." instance=ExtResource( 9 )]
 [connection signal="started" from="." to="Ball" method="_on_Game_started"]
 [connection signal="area_entered" from="DeathArea" to="." method="_on_DeadArea_area_entered" flags=3]
 [connection signal="body_entered" from="DeathArea" to="." method="_on_DeadArea_body_entered"]

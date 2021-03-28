@@ -17,7 +17,6 @@ func fade_out():
 func fade_inout():
 	if $AnimationPlayer.is_playing():
 		fade_inout()
-		print("aa")
 	$AnimationPlayer.play("fade_inout")
 	$".".show()
 

@@ -2,8 +2,8 @@
 
 [ext_resource path="res://Assets/Sprites/BrickNX.piskel" type="Texture" id=1]
 [ext_resource path="res://Szenen/Title Screen/Buttons.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Szenen/FadeIn.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Szenen/Title Screen/title_screen.gd" type="Script" id=5]
+[ext_resource path="res://Szenen/Title Screen/Title Screen.gd" type="Script" id=3]
+[ext_resource path="res://Szenen/Fade.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -40,7 +40,7 @@ animations = [ {
 [node name="Title Screen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 5 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -50,7 +50,7 @@ position = Vector2( 640, 210 )
 scale = Vector2( 8, 8 )
 frames = SubResource( 7 )
 animation = "Title Screen"
-frame = 2
+frame = 1
 speed_scale = 2.0
 playing = true
 
@@ -91,5 +91,4 @@ margin_bottom = 330.0
 align = 2
 valign = 2
 
-[node name="FadeIn" parent="." instance=ExtResource( 4 )]
-visible = false
+[node name="Fade" parent="." instance=ExtResource( 4 )]

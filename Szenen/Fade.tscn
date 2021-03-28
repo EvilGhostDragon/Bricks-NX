@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scripts/fade_in.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Fade.gd" type="Script" id=1]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -17,7 +17,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "fade_inout"
 length = 1.5
 tracks/0/type = "bezier"
@@ -31,8 +31,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1, 1.5 )
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "fade_out"
+[sub_resource type="Animation" id=3]
 length = 0.5
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:color:a")
@@ -45,7 +44,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 
-[node name="FadeIn" type="ColorRect"]
+[node name="Fade" type="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
@@ -56,6 +55,6 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fade_in = SubResource( 1 )
-anims/fade_inout = SubResource( 3 )
-anims/fade_out = SubResource( 2 )
+anims/fade_inout = SubResource( 2 )
+anims/fade_out = SubResource( 3 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
