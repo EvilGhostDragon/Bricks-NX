@@ -20,9 +20,8 @@ func _ready():
 	$Panel/VBoxContainer/Highscore.text = str(highscore)
 
 func _on_Button_pressed(scene_to_load):
-	if scene_path_to_load:
-		scene_path_to_load = scene_to_load
-		$Fade.fade_in()
+	scene_path_to_load = scene_to_load
+	$Fade.fade_in()
 
 func _on_FadeIn_finished():
 	get_tree().change_scene(scene_path_to_load)
