@@ -8,10 +8,9 @@ var destroyed_points
 var health = 1
 
 func _process(_delta):
+	randomize()
 	if health <= 0:
-		randomize()
-		if randi()%3 == 1:
-			print("1")
+		if randi()%7 == 1:
 			generate_powerup()
 		queue_free()
 		emit_signal("destroyed",destroyed_points)

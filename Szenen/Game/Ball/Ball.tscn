@@ -40,7 +40,7 @@ extents = Vector2( 4.37375, 3.6263 )
 [node name="Ball" type="KinematicBody2D"]
 scale = Vector2( 2.5, 2.5 )
 collision_layer = 4
-collision_mask = 25
+collision_mask = 57
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

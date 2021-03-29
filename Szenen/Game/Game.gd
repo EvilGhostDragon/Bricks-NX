@@ -5,11 +5,15 @@ signal started
 var project_resolution=Vector2(ProjectSettings.get_setting("display/window/size/width"),ProjectSettings.get_setting("display/window/size/height"))
 var Brick = preload("res://Szenen/Game/Brick/Brick.tscn")
 var Powerup = preload("res://Szenen/Game/Powerup/Powerup.tscn")
+var Ball = preload("res://Szenen/Game/Ball/Ball.tscn")
 var health = 3
 var score = 0
 var game_started = false
+var children_run = false
 var level = 1
 var brick_lines = 3
+
+var first_ball
 
 func test():
 	score += 1
@@ -31,17 +35,14 @@ func _ready():
 	$Borders/Right/CollisionShape2D.position = Vector2(10,shape_height.y)
 	$Borders/Left/CollisionShape2D.shape = border_leftright
 	$Borders/Left/CollisionShape2D.position = Vector2(project_resolution.x-10,shape_height.y)
-	
-	var powerup = Powerup.instance()
-	powerup.connect("powerupCollected",self,"_on_Powerup_collected")
-	
+		
 	build_stage()
 
 func _physics_process(_delta):
 	if health <= 0:
-		
 		get_tree().change_scene("res://Szenen/Title Screen/Title Screen.tscn")
 		save()
+	
 
 	if not game_started:
 		if Input.is_action_pressed("game_left") and $Line2D.rotation >= deg2rad(-80):
@@ -49,7 +50,7 @@ func _physics_process(_delta):
 		if Input.is_action_pressed("game_right")and $Line2D.rotation <= deg2rad(80):
 			$Line2D.rotate(deg2rad(2))
 
-		if Input.is_action_just_pressed("game_shoot"):
+		if Input.is_action_just_pressed("game_shoot") or Input.is_action_just_released("game_touch"):
 			start_game()
 	if Input.is_action_just_pressed("game_pause"):
 		get_tree().paused = true
@@ -60,31 +61,44 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("test_skiplevel"):
 		for _brick in $Bricks.get_children():
 			$Bricks.remove_child(_brick)
-			
-	
-	
+		
+func _input(_event):
+	if Input.is_action_just_released("game_touch"):
+		if get_global_mouse_position().x < project_resolution.x/2:
+			Input.action_release("game_left")
+		else:
+			Input.action_release("game_right")
+	if Input.is_action_just_pressed("game_touch"):
+		if get_global_mouse_position().x < project_resolution.x/2:
+			Input.action_press("game_left")
+		else:
+			Input.action_press("game_right")
 
 func level_cleared():
 	game_started = false
-	#$GameAnimation.play("level_cleared")
 	level += 1
 	$LevelClearedTimer.start(1)
 	$Fade.fade_inout()
+	for powerup in $Powerups.get_children():
+		powerup.set_process(false)
 
 func stop_game():
 	update_hud()
 	game_started = false
-	$Player.set_physics_process(game_started)
+	children_run = game_started
+	$Player.set_physics_process(children_run)
 	for powerup in $Powerups.get_children():
-		powerup.set_process(game_started)
+		powerup.set_process(children_run)
 
 func start_game():
 	emit_signal("started",$Line2D.rotation)
+	first_ball.shoot($Line2D.rotation)
 	game_started = true
+	children_run = game_started
 	$Line2D.hide()
-	$Player.set_physics_process(game_started)
+	$Player.set_physics_process(children_run)
 	for powerup in $Powerups.get_children():
-		powerup.set_process(game_started)
+		powerup.set_process(children_run)
 	$Player.velocity = Vector2(0,0)
 
 func start_setup():
@@ -92,9 +106,10 @@ func start_setup():
 	$Line2D.rotation_degrees = 0
 	$Line2D.show()
 	$Player.position = Vector2(490,670)
-	$Balls/Ball.position = Vector2(640,670)
-	$Balls/Ball.velocity = Vector2(0,0)
-	$Balls/Ball.modulate = Color("ffffff")
+	first_ball = Ball.instance()
+	first_ball.init(Vector2(640,660))
+	$Balls.add_child(first_ball)
+	
 	
 func build_stage():
 	start_setup()
@@ -132,29 +147,51 @@ func save():
 		if score_old < score:
 			save_score()
 
-func _on_DeadArea_body_entered(_body):
+func add_ball():
+	var ball = Ball.instance()
+	ball.init(Vector2($Player.position.x + 150, $Player.position.y - 15))
+	$Balls.add_child(ball)
+	ball.shoot(deg2rad((randi()%140)-70))
+
+func _on_DeadArea_body_entered(body):
+	body.queue_free()
 	if $Balls.get_child_count() > 1:
 		return
 	if game_started:
 		health -= 1
 	stop_game()
-	$DeathTimer.start(1)
+	$DeathTimer.start(0.1)
 
 func _on_Pause_pressed():
 	$Pause.hide()
 	get_tree().paused = false
 	
 func _on_Brick_destroyed(value):
+	if $Powerups.get_child_count() > 0:
+		for powerup in $Powerups.get_children():
+			if not powerup.is_connected("powerupCollected",self,"_on_Powerup_collected"):
+				powerup.connect("powerupCollected",self,"_on_Powerup_collected")
 	score += value
 	update_hud()
 
 func _on_Powerup_collected(type):
-	print(type)
-	pass
+	score += 10
+	randomize()
+	match type:
+		0: 
+			health += 1
+		1:
+			call_deferred("add_ball")
+		_: pass
+	update_hud()
 
 func _on_LevelClearedTimer_timeout():
+	children_run = false
+	for ball in $Balls.get_children():
+		ball.queue_free()
 	build_stage()
 	
 func _on_DeathTimer_timeout():
+	children_run = false
 	start_setup()
 

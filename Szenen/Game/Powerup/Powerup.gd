@@ -5,21 +5,23 @@ signal powerupCollected
 const SPEED = 5
 
 var Health = preload("res://Assets/Icons/heart.svg")
+var Ball = preload("res://Assets/Sprites/BrickBall.piskel")
 var type_id
 var velocity
 
-func _process(delta):
+func _process(_delta):
 	position.y += SPEED
-	
-	
-
 func init(pos):
 	position = pos
 	randomize()
-	#var type_id = randi() % 3
-	type_id = 0
+	type_id = randi() % 2
+	print(type_id)
 	match type_id:
-		0: $Sprite.texture = Health
+		0: 
+			$Sprite.texture = Health
+		1: 
+			$Sprite.texture = Ball
+			$Sprite.scale = Vector2(1.5,1.5)
 		_: queue_free()
 
 
