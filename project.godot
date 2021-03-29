@@ -137,6 +137,7 @@ pointing/emulate_touch_from_mouse=true
 2d_physics/layer_3="Ball"
 2d_physics/layer_4="Bricks"
 2d_physics/layer_5="Border"
+2d_physics/layer_6="Death"
 
 [rendering]
 

@@ -4,11 +4,16 @@ signal started
 
 var project_resolution=Vector2(ProjectSettings.get_setting("display/window/size/width"),ProjectSettings.get_setting("display/window/size/height"))
 var Brick = preload("res://Szenen/Game/Brick/Brick.tscn")
+var Powerup = preload("res://Szenen/Game/Powerup/Powerup.tscn")
 var health = 3
 var score = 0
 var game_started = false
 var level = 1
 var brick_lines = 3
+
+func test():
+	score += 1
+	update_hud()
 
 func _ready():
 	$Fade.fade_out()
@@ -26,6 +31,9 @@ func _ready():
 	$Borders/Right/CollisionShape2D.position = Vector2(10,shape_height.y)
 	$Borders/Left/CollisionShape2D.shape = border_leftright
 	$Borders/Left/CollisionShape2D.position = Vector2(project_resolution.x-10,shape_height.y)
+	
+	var powerup = Powerup.instance()
+	powerup.connect("powerupCollected",self,"_on_Powerup_collected")
 	
 	build_stage()
 
@@ -52,6 +60,9 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("test_skiplevel"):
 		for _brick in $Bricks.get_children():
 			$Bricks.remove_child(_brick)
+			
+	
+	
 
 func level_cleared():
 	game_started = false
@@ -64,12 +75,16 @@ func stop_game():
 	update_hud()
 	game_started = false
 	$Player.set_physics_process(game_started)
+	for powerup in $Powerups.get_children():
+		powerup.set_process(game_started)
 
 func start_game():
 	emit_signal("started",$Line2D.rotation)
 	game_started = true
 	$Line2D.hide()
 	$Player.set_physics_process(game_started)
+	for powerup in $Powerups.get_children():
+		powerup.set_process(game_started)
 	$Player.velocity = Vector2(0,0)
 
 func start_setup():
@@ -77,9 +92,9 @@ func start_setup():
 	$Line2D.rotation_degrees = 0
 	$Line2D.show()
 	$Player.position = Vector2(490,670)
-	$Ball.position = Vector2(640,670)
-	$Ball.velocity = Vector2(0,0)
-	$Ball.modulate = Color("ffffff")
+	$Balls/Ball.position = Vector2(640,670)
+	$Balls/Ball.velocity = Vector2(0,0)
+	$Balls/Ball.modulate = Color("ffffff")
 	
 func build_stage():
 	start_setup()
@@ -118,6 +133,8 @@ func save():
 			save_score()
 
 func _on_DeadArea_body_entered(_body):
+	if $Balls.get_child_count() > 1:
+		return
 	if game_started:
 		health -= 1
 	stop_game()
@@ -131,8 +148,13 @@ func _on_Brick_destroyed(value):
 	score += value
 	update_hud()
 
+func _on_Powerup_collected(type):
+	print(type)
+	pass
+
 func _on_LevelClearedTimer_timeout():
 	build_stage()
 	
 func _on_DeathTimer_timeout():
 	start_setup()
+

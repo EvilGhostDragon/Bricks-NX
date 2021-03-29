@@ -39,7 +39,7 @@ shortcut = SubResource( 6 )
 [sub_resource type="Animation" id=8]
 resource_name = "level_cleared"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Ball:modulate")
+tracks/0/path = NodePath("Balls/Ball:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -138,8 +138,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Ball" parent="." instance=ExtResource( 1 )]
+[node name="Balls" type="Node2D" parent="."]
+
+[node name="Ball" parent="Balls" instance=ExtResource( 1 )]
 position = Vector2( 568, 640 )
+
+[node name="Powerups" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 490, 670 )
@@ -178,7 +182,7 @@ polygon = PoolVector2Array( 22, 0, 22, 760, 0, 760, 0, 0 )
 
 [node name="DeathArea" type="Area2D" parent="."]
 gravity = 0.0
-collision_layer = 0
+collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathArea"]
@@ -242,8 +246,7 @@ anims/level_cleared = SubResource( 8 )
 
 [node name="Fade" parent="." instance=ExtResource( 9 )]
 visible = false
-[connection signal="started" from="." to="Ball" method="_on_Game_started"]
-[connection signal="area_entered" from="DeathArea" to="." method="_on_DeadArea_area_entered" flags=3]
+[connection signal="started" from="." to="Balls/Ball" method="_on_Game_started"]
 [connection signal="body_entered" from="DeathArea" to="." method="_on_DeadArea_body_entered"]
 [connection signal="pressed" from="Pause/Pause" to="." method="_on_Pause_pressed"]
 [connection signal="timeout" from="LevelClearedTimer" to="." method="_on_LevelClearedTimer_timeout"]
