@@ -5,7 +5,7 @@ signal powerupCollected
 const SPEED = 5
 
 var Health = preload("res://Assets/Icons/heart.svg")
-var Ball = preload("res://Assets/Sprites/BrickBall.piskel")
+var Ball = preload("res://Assets/Sprites/ball.png")
 var type_id
 var velocity
 
@@ -21,7 +21,7 @@ func init(pos):
 			$Sprite.texture = Health
 		1: 
 			$Sprite.texture = Ball
-			$Sprite.scale = Vector2(1.5,1.5)
+			$Sprite.scale = Vector2(1,1)
 		_: queue_free()
 
 

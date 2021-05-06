@@ -37,4 +37,4 @@ func _on_topbot_body_entered(_body):
 	_hit_topbot()
 
 func _on_animation_finished(_anim_name):
-	$".".scale = Vector2(2.5,2.5)	
+	$".".scale = Vector2(1,1)	

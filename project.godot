@@ -16,10 +16,8 @@ _global_script_class_icons={
 [application]
 
 config/name="Brick"
-run/main_scene="res://Boot Splash.tscn"
-boot_splash/image="res://Assets/LOGO.png"
-boot_splash/fullsize=false
-boot_splash/bg_color=Color( 0.14902, 0.192157, 0.219608, 1 )
+run/main_scene="res://Szenen/Title Screen/Title Screen.tscn"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 
 [display]
 
